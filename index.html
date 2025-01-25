@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Firebase v8 SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!-- App scripts -->
+    <script defer src="js/LoginManager.js"></script>
+    <script defer src="js/DatabaseManager.js"></script>
+    <script defer src="js/CurrencyConverter.js"></script>
+    <script defer src="js/Instrument.js"></script>
+    <script defer src="js/Modal.js"></script>
+    <script defer src="js/UI.js"></script>
+    <script defer src="js/Portfolio.js"></script>
+    <script defer src="js/ChartManager.js"></script>
+    <script defer src="js/App.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <title>Portolio tracker</title>
+</head>
+
+<body>
+
+    <!-- LOADING SPINNER -->
+    <div class="loader">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- SUMMARY BAR -->
+    <div class="tracker-content summary">
+        <div class="card text-bg-dark" style="width: 15rem;">
+            <div class="card-body text-center">
+                <h6 class="card-title"><i class="fa-solid fa-seedling icon-circle circle-green"></i>
+                    Celkem investováno</h6>
+                <div class="summary-item">
+                    <span id="total-invested">0</span>
+                    <span id="total-invested-czk">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="card text-bg-dark" style="width: 15rem;">
+            <div class="card-body text-center">
+                <h6 class="card-title"><i class="fa-solid fa-hand-holding-dollar icon-circle circle-blue"></i>
+                    Hodnota portfolia</h6>
+                <div class="summary-item">
+                    <span id="portfolio-value">0</span>
+                    <span id="portfolio-value-czk">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="card text-bg-dark" style="width: 15rem;">
+            <div class="card-body text-center">
+                <h6 class="card-title"><i class="fa-solid fa-coins icon-circle circle-red"></i>
+                    Výnos / Ztráta</h6>
+                <div class="summary-item">
+                    <span id="profit-usd">0</span>
+                    <span id="profit-czk">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="card text-bg-dark" style="width: 15rem;">
+            <div class="card-body text-center">
+                <h6 class="card-title"><i class="fa-solid fa-percent icon-circle circle-purple"></i>
+                    Výnos / Ztráta (%)</h6>
+                <div class="summary-item">
+                    <span id="profit-usd-percentage">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="card text-bg-dark text-center" style="width: 15rem;">
+            <div class="card-body">
+                <h6 class="card-title"><i class="fa-solid fa-rotate icon-circle circle-pink"></i>
+                    Cena USD / CZK</h6>
+                <div class="summary-item">
+                    <span id="usd-czk">0</span>
+                </div>
+            </div>
+        </div>
+        <!-- COPYRIGHT -->
+        <div class="card text-bg-dark text-center" style="width: 14rem;">
+            <div class="card-body">
+                <h6 class="app-title">PORTFOLIO DASHBOARD</h6>
+                <span class="copyright">&copy; Tomáš Ulman</span>
+                <div class="log-out">
+                    <i class="fa-solid fa-right-from-bracket menu-icon" id="log-out"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YIELD CHART -->
+    <div class="tracker-content card text-bg-dark w-100">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fa-solid fa-chart-line icon-circle circle-blue"></i>
+                Výkonnost</h5>
+            <canvas id="yieldChart" width="100" height="12"></canvas>
+        </div>
+    </div>
+
+    <!-- TABLE AND CHARTS CONTAINER -->
+    <div class="tracker-content allocation w-100">
+        <div class="portfolio-table">
+            <table class="table table-dark table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Název</th>
+                        <th scope="col">Ticker</th>
+                        <th scope="col">Počet</th>
+                        <th scope="col">Investováno</th>
+                        <th scope="col">Aktuální hodnota</th>
+                        <th scope="col">Tržní cena</th>
+                        <th scope="col">Výnos</th>
+                        <th scope="col">Výnos (%)</th>
+                        <th></th>
+                        <th><i class="fa-solid fa-plus menu-icon" id="add-instrument-btn"></i></th>
+                    </tr>
+                </thead>
+                <tbody class="portfolio-list">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CHARTS  -->
+        <div class="card text-bg-dark border-dark" style="width: 35vw; height: 35vh;">
+            <div class="card-header border-dark">
+                <ul class="nav nav-pills card-header-pills" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="allocation-tab" data-bs-toggle="tab" href="#allocation"
+                            role="tab" aria-controls="allocation" aria-selected="true">Alokace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="stock-tab" data-bs-toggle="tab" href="#stock" role="tab"
+                            aria-controls="stock" aria-selected="false">Akcie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="etf-tab" data-bs-toggle="tab" href="#etf" role="tab" aria-controls="etf"
+                            aria-selected="false">ETF</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="crypto-tab" data-bs-toggle="tab" href="#crypto" role="tab"
+                            aria-controls="crypto" aria-selected="false">Kryptoměny</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="allocation" role="tabpanel"
+                        aria-labelledby="allocation-tab">
+                        <canvas id="typeChart" width="350" height="135"></canvas>
+                    </div>
+                    <div class="tab-pane fade" id="stock" role="tabpanel" aria-labelledby="stock-tab">
+                        <canvas id="stockChart" width="350" height="135"></canvas>
+                    </div>
+                    <div class="tab-pane fade" id="etf" role="tabpanel" aria-labelledby="etf-tab">
+                        <canvas id="etfChart" width="350" height="135"></canvas>
+                    </div>
+                    <div class="tab-pane fade" id="crypto" role="tabpanel" aria-labelledby="crypto-tab">
+                        <canvas id="cryptoChart" width="350" height="135"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW INSTRUMENT MODAL -->
+    <div class="add-instrument-modal bg-dark hidden">
+        <button class="close-modal">&times;</button>
+        <form id="add-instrument-form">
+            <div class="input-group input-group-sm mb-2">
+                <span class="input-group-text">Název</span>
+                <input type="text" class="form-control text-light border-secondary" name="name" required>
+            </div>
+            <div class="input-group input-group-sm mb-2">
+                <span class="input-group-text">Ticker</span>
+                <input type="text" class="form-control text-light border-secondary" name="ticker" id="add-ticker-input"
+                    style="margin-right: 8px;" required>
+                <span class="input-group-text">Typ</span>
+                <select class="form-select form-select-sm text-light border-secondary" name="type" id="type-select"
+                    required>
+                    <option value="" style="display: none;"></option>
+                    <option value="Stock">Akcie</option>
+                    <option value="ETF">ETF</option>
+                    <option value="Crypto">Kryptoměna</option>
+                </select>
+            </div>
+            <div class="input-group input-group-sm mb-2" style="display: none;">
+                <span class="input-group-text">Symbol</span>
+                <input type="text" class="form-control text-light border-secondary" name="symbol" id="add-symbol-input"
+                    required>
+            </div>
+            <div class="input-group input-group-sm mb-2">
+                <span class="input-group-text">Investováno</span>
+                <input type="number" step="any" class="form-control text-light border-secondary" name="investment"
+                    style="margin-right: 8px;" required>
+                <span class="input-group-text">Počet</span>
+                <input type="number" step="any" class="form-control text-light border-secondary" name="volume" required>
+            </div>
+            <div class="d-grid col-6 mx-auto mt-3">
+                <button type="submit" class="btn btn-primary" id="confirm-add-instrument-btn">Přidat pozici</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- EDIT INSTRUMENT MODAL -->
+    <div class="edit-instrument-modal bg-dark hidden">
+        <button class="close-modal">&times;</button>
+        <form id="edit-instrument-form">
+            <div class="edit-instrument-inputs input-group input-group-sm text-light">
+                <span class="edit-span" id="edit-name-span"></span>
+                <span class="edit-span" id="edit-ticker-span"></span>
+
+                <input type="text" class="hidden" name="ticker" id="edit-ticker-input">
+
+                <span class="input-group-text">Investováno</span>
+                <input type="number" step="any" class="form-control text-light border-secondary" name="investment"
+                    id="edit-investment-input" style="margin-right: 5px;" required>
+
+                <span class="input-group-text">Počet</span>
+                <input type="number" step="any" class="form-control text-light border-secondary" name="volume"
+                    id="edit-volume-input" required>
+
+                <div class="mx-1">
+                    <button type="submit" class="btn btn-primary" id="confirm-edit-instrument-btn">Uložit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="overlay hidden"></div>
+
+</body>
+
+</html>
