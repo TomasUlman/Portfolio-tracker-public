@@ -1,0 +1,46 @@
+html,
+body {
+  height: 100%;
+}
+
+.form-login {
+  max-width: 330px;
+  padding: 1rem;
+}
+
+.form-login .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-login input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-login input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-control::placeholder {
+  color: #b0b0b0;
+}
+
+.form-control {
+  background-color: #151617 !important;
+}
+
+.form-control:focus {
+  border-color: #e3e3e3 !important;
+}
+
+.form-check-input {
+  background-color: #151617 !important;
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: #007bff !important;
+}

@@ -1,0 +1,241 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 1rem;
+    background-color: #161616 !important;
+}
+
+/* LOADER */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* SUMMARY */
+.summary {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.icon-circle {
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 9px;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    margin-right: 1rem;
+    text-align: center;
+}
+
+.circle-green {
+    border-color: #008170;
+    background-color: #008170;
+}
+
+.circle-blue {
+    border-color: #1464ae;
+    background-color: #1464ae;
+}
+
+.circle-purple {
+    border-color: #93329E;
+    background-color: #93329E;
+}
+
+.circle-red {
+    border-color: #CD1818;
+    background-color: #CD1818;
+}
+
+.circle-pink {
+    border-color: #9a0a3f;
+    background-color: #9a0a3f;
+}
+
+.app-title {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.copyright {
+    font-size: 0.9rem;
+}
+
+.log-out {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.menu-icon {
+    cursor: pointer;
+}
+
+.menu-icon:hover {
+    transform: scale(1.2);
+}
+
+/* TABLE AND GRAPHS CONTAINER */
+.allocation {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+/* PORTFOLIO TABLE */
+.portfolio-table {
+    width: 75vw;
+    overflow-y: auto;
+    height: 35vh;
+    font-size: 0.9rem;
+}
+
+.table-btn {
+    cursor: pointer;
+}
+
+.table-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Úprava celého scrollbar tracku */
+.portfolio-table::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Úprava dráhy scrollbaru (track) */
+.portfolio-table::-webkit-scrollbar-track {
+    background: var(--secondary-color);
+    border-radius: 10px;
+}
+
+/* Úprava samotného posuvníku */
+.portfolio-table::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Posuvník při hoveru */
+.portfolio-table::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Odstranění šipek nahoře a dole */
+.portfolio-table::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* GRAPHS */
+.nav-pills .nav-link {
+    color: #cbcaca;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #1464ae !important;
+    color: #fff !important;
+}
+
+.nav-pills .nav-link:hover {
+    color: #fff !important;
+}
+
+/* MODALS */
+.hidden {
+    display: none;
+}
+
+.add-instrument-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    padding: 4rem 2rem 2rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.edit-instrument-modal {
+    position: absolute;
+    top: 53%;
+    left: 33.5%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    padding: 3rem 2rem 1rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    align-items: center;
+}
+
+.edit-span {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.form-control {
+    background-color: #151617 !important;
+}
+
+.form-select {
+    background-color: #151617 !important;
+}
+
+.form-control:focus {
+    border-color: #e3e3e3 !important;
+}
+
+.input-group-text {
+    background-color: #373434 !important;
+    color: #fff !important;
+    border-color: #6f6f6f !important;
+}
+
+.close-modal {
+    position: absolute;
+    top: 0rem;
+    right: 0.5rem;
+    font-size: 2rem;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 5;
+}
+
+/* INPUTS */
+/* Odstranění šipek u čísla (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Pro Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
