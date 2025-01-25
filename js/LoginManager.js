@@ -33,7 +33,7 @@ class LoginManager {
     _login(email, password) {
         this.auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                window.location.href = "portfolio-tracker.html";
+                window.location.href = "index.html";
             })
             .catch((error) => {
                 document.getElementById('error-login').style.display = 'block';
